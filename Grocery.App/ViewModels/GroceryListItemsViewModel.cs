@@ -23,6 +23,23 @@ namespace Grocery.App.ViewModels
         GroceryList groceryList = new(0, "None", DateOnly.MinValue, "", 0);
         [ObservableProperty]
         string myMessage;
+        
+        [ObservableProperty]
+        string searchTerm;
+
+        [RelayCommand]
+        public void Search(string term)
+        {
+            searchTerm = term;
+            AvailableProducts.Clear();
+            foreach (Product p in _productService.GetAll())
+            {
+                bool notInList = MyGroceryListItems.FirstOrDefault(g => g.ProductId == p.Id) == null;
+                bool matchesSearch = string.IsNullOrWhiteSpace(term) || p.Name.Contains(term, StringComparison.OrdinalIgnoreCase);
+                if (notInList && p.Stock > 0 && matchesSearch)
+                    AvailableProducts.Add(p);
+            }
+        }
 
         public GroceryListItemsViewModel(IGroceryListItemsService groceryListItemsService, IProductService productService, IFileSaverService fileSaverService)
         {
