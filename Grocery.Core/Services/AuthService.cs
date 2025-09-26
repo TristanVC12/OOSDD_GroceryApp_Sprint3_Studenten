@@ -11,6 +11,12 @@ namespace Grocery.Core.Services
         {
             _clientService = clientService;
         }
+        public bool Register(Client client)
+        {
+            if (_clientService.Get(client.EmailAddress) != null) return false;
+            _clientService.Add(client);
+            return true;
+        }
         public Client? Login(string email, string password)
         {
             Client? client = _clientService.Get(email);
