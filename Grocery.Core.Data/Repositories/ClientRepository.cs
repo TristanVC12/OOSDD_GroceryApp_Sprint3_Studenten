@@ -16,6 +16,11 @@ namespace Grocery.Core.Data.Repositories
                 new Client(3, "A.J. Kwak", "user3@mail.com", "sxnIcZdYt8wC8MYWcQVQjQ==.FKd5Z/jwxPv3a63lX+uvQ0+P7EuNYZybvkmdhbnkIHA=")
             ];
         }
+        public void Add(Client client)
+        {
+            clientList.Add(client);
+        }
+
 
         public Client? Get(string email)
         {
